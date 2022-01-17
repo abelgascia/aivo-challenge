@@ -6,7 +6,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
-      loginWithRedirect({});
+      return null;
     } else {
       window.location.href = "/";
     }

@@ -50,7 +50,7 @@ export default function List({ items, title }) {
   }
 
   return (
-    <div className="col-12">
+    <div className="col-12" id={title}>
       <div className="row">
         <div className="col-6">
           <h3 className="text-white">{title}</h3>
@@ -106,12 +106,13 @@ export default function List({ items, title }) {
         style={{ overflowX: "scroll", overflowY: "hidden !important" }}
       >
         {list.length > 0 &&
-          list.map((item) => {
+          list.map((item, i) => {
             return (
               <ListItem
                 poster={item.images["Poster Art"].url}
                 title={item.title}
                 sinopsis={item.description}
+                key={i}
               />
             );
           })}
