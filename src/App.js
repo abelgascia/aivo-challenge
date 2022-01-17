@@ -1,18 +1,37 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useAuth0, Auth0Provider } from "@auth0/auth0-react";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 
 import Home from "./pages/Home";
-import Register from "./pages/Register";
+import Login from "./pages/Login";
+
+const PrivateRoute = ({ ...props }) => {
+  const { isAuthenticated } = useAuth0();
+  if (isAuthenticated) {
+    return <Route {...props} />;
+  } else {
+    return <Redirect to="/login" />;
+  }
+};
 
 function App() {
-  const { isAuthenticated } = useAuth0();
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/registro" component={Register} />
-      </Switch>
-    </Router>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      client_id={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      redirect_uri={window.location.origin}
+    >
+      <Router>
+        <Switch>
+          <PrivateRoute exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </Router>
+    </Auth0Provider>
   );
 }
 
