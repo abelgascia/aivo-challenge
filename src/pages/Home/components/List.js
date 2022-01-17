@@ -35,6 +35,15 @@ export default function List({ items, title }) {
     return arr;
   }
 
+  function listFilter(input) {
+    let filtered = items.filter(
+      (item) =>
+        item.title.toLowerCase().includes(input.toLowerCase()) ||
+        item.releaseYear.toString().includes(input)
+    );
+    setList(filtered);
+  }
+
   return (
     <div className="col-12">
       <div className="row">
@@ -50,6 +59,7 @@ export default function List({ items, title }) {
                 id="search"
                 placeholder="Buscar por nombre o año..."
                 className="mx-2 px-3 bg-dark text-white border border-1 border-white"
+                onChange={(e) => listFilter(e.target.value)}
               />
             </div>
             <div>
@@ -90,15 +100,20 @@ export default function List({ items, title }) {
         className="d-flex flex-row mt-2"
         style={{ overflowX: "scroll", overflowY: "hidden !important" }}
       >
-        {list.map((item) => {
-          return (
-            <ListItem
-              poster={item.images["Poster Art"].url}
-              title={item.title}
-              sinopsis={item.description}
-            />
-          );
-        })}
+        {list.length > 0 &&
+          list.map((item) => {
+            return (
+              <ListItem
+                poster={item.images["Poster Art"].url}
+                title={item.title}
+                sinopsis={item.description}
+              />
+            );
+          })}
+
+        {list.length === 0 && (
+          <h2 className="text-white my-2">No se encontraron resultados...</h2>
+        )}
       </div>
     </div>
   );
