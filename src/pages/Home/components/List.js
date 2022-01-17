@@ -3,17 +3,18 @@ import ListItem from "./ListItem";
 
 export default function List({ items, title }) {
   const [list, setList] = useState([]);
+  const [tempList, setTempList] = useState([]);
 
   useEffect(() => {
     setList(items);
   }, [items]);
 
-  function handleFilter(type) {
+  function handleSorting(type) {
     if (type === "year") {
       let filtered = yearSorting(list);
       setList(filtered);
     } else {
-      let filtered = items.sort((a, b) => a.title.localeCompare(b.title));
+      let filtered = nameSorting(list);
       setList(filtered);
     }
   }
@@ -33,6 +34,10 @@ export default function List({ items, title }) {
       if (noSwaps) break;
     }
     return arr;
+  }
+
+  function nameSorting(arr) {
+    return items.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   function listFilter(input) {
@@ -58,7 +63,7 @@ export default function List({ items, title }) {
                 name="search"
                 id="search"
                 placeholder="Buscar por nombre o año..."
-                className="mx-2 px-3 bg-dark text-white border border-1 border-white"
+                className="mx-2 px-3 bg-dark text-white border border-1 border-white h-100 rounded-3"
                 onChange={(e) => listFilter(e.target.value)}
               />
             </div>
@@ -77,7 +82,7 @@ export default function List({ items, title }) {
                   <li>
                     <a
                       className="dropdown-item"
-                      onClick={() => handleFilter("name")}
+                      onClick={() => handleSorting("name")}
                     >
                       Nombre
                     </a>
@@ -85,7 +90,7 @@ export default function List({ items, title }) {
                   <li>
                     <a
                       className="dropdown-item"
-                      onClick={() => handleFilter("year")}
+                      onClick={() => handleSorting("year")}
                     >
                       Año
                     </a>
