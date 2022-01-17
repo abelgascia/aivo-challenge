@@ -1,9 +1,7 @@
-import axios from "axios";
+import movies from "./movies.json";
 
-const API = axios.create({
-  baseURL: "https://interview-front-api.herokuapp.com/", // The best practice is to use the baseURL by environment variables
-});
+const getMovies = async () => {
+  return JSON.parse(JSON.stringify(movies));
+};
 
-API.defaults.headers.post["Content-Type"] = "application/json";
-
-export default API;
+export default getMovies;
